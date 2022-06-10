@@ -18,7 +18,71 @@ public class ProductManagerTest {
     Product book3 = new Book(6, "Дюна", 740, "Френк Герберт");
 
     @Test
-    public void firstTest() {
+    public void removeById() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        manager.add(book1);
+        manager.add(phone1);
+        manager.add(phone2);
+        manager.add(phone3);
+        manager.add(book2);
+        manager.add(book3);
+        manager.removeById(3);
+        manager.findAll();
+
+        Product[] actual = manager.findAll();
+        Product[] expected = {book1, phone1, phone3, book2, book3};
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void emptyTest() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        manager.add(phone1);
+        manager.removeById(2);
+        manager.findAll();
+
+
+
+        Product[] actual = manager.findAll();
+        Product[] expected = {};
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void searchByAuthorName() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        manager.add(book1);
+        manager.add(phone1);
+        manager.add(phone2);
+        manager.add(phone3);
+        manager.add(book2);
+        manager.add(book3);
+        Product[] actual = manager.searchBy("сто");
+        Product[] expected = { book1 };
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void findMatchesByRemove() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        manager.add(book1);
+        manager.add(phone1);
+        manager.add(phone2);
+        manager.add(phone3);
+        manager.add(book2);
+        manager.add(book3);
+        manager.removeById(2);
+
+        Product[] actual = manager.searchBy("Si");
+        Product[] expected = { phone2 };
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void searchByTwoMatches() {
         ProductRepository repo = new ProductRepository();
         ProductManager manager = new ProductManager(repo);
         manager.add(book1);
@@ -33,45 +97,5 @@ public class ProductManagerTest {
         Product[] actual = manager.searchBy("В");
         Product[] expected = {book1, book2};
         Assertions.assertArrayEquals(expected, actual);
-    }
-    @Test
-    public void matchesTest() {
-        ProductRepository repo = new ProductRepository();
-        ProductManager manager = new ProductManager(repo);
-        manager.add(book1);
-        manager.add(phone1);
-        manager.add(phone2);
-        manager.add(phone3);
-        manager.add(book2);
-        manager.add(book3);
-
-
-
-        Product[] actual = manager.searchBy("Si");
-        Product[] expected = {};
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void secondTest() {
-        ProductRepository repo = new ProductRepository();
-        ProductManager manager = new ProductManager(repo);
-        manager.add(book1);
-        manager.add(phone1);
-        manager.add(phone2);
-        manager.add(phone3);
-        manager.add(book2);
-        manager.add(book3);
-        Product[] actual = manager.searchBy("10");
-        Product[] expected = { phone3 };
-        Assertions.assertArrayEquals(expected, actual);
-
-        ProductRepository repo1 = new ProductRepository();
-        ProductManager manager1 = new ProductManager(repo1);
-
-        Product[] actual1 = manager1.searchBy("В");
-        Product[] expected1 = {};
-        Assertions.assertArrayEquals(expected, actual);
-
     }
 }

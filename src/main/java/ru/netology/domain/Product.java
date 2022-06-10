@@ -17,4 +17,8 @@ public class Product {
         this.name = name;
         this.cost = cost;
     }
+
+    public boolean matches(String search) {
+        return name.contains(search); }
+
 }
