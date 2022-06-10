@@ -17,7 +17,23 @@ public class ProductRepositoryTest {
     Product book3 = new Book(6, "Дюна", 740, "Френк Герберт");
 
     @Test
-    public void firstTest() {
+    public void addProduct() {
+        ProductRepository repo = new ProductRepository();
+        repo.add(book1);
+        repo.add(phone1);
+        repo.add(phone2);
+        repo.add(phone3);
+        repo.add(book2);
+        repo.add(book3);
+        repo.findAll();
+
+        Product[] actual = repo.findAll();
+        Product[] expected = { book1, phone1, phone2, phone3, book2, book3 };
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void removeById() {
         ProductRepository repo = new ProductRepository();
         repo.add(book1);
         repo.add(phone1);
@@ -32,4 +48,15 @@ public class ProductRepositoryTest {
         Product[] expected = { book1, phone2, phone3, book2, book3 };
         Assertions.assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void findAllEmptyRepository() {
+        ProductRepository repo = new ProductRepository();
+        repo.findAll();
+
+        Product[] actual = repo.findAll();
+        Product[] expected = {};
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
 }
